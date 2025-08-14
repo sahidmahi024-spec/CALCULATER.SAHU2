@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Calculator</title>
+<style>
+    body {
+        background: #222;
+        color: white;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .calculator {
+        background: #333;
+        padding: 20px;
+        border-radius: 10px;
+        width: 350px;
+    }
+    .display {
+        background: black;
+        color: lime;
+        font-size: 1.8em;
+        padding: 15px;
+        text-align: right;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+    .keys {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+    }
+    button {
+        padding: 15px;
+        font-size: 1em;
+        border: none;
+        border-radius: 5px;
+        background: #555;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #777;
+    }
+</style>
+</head>
+<body>
+<div class="calculator">
+    <div id="display" class="display">0</div>
+    <div class="keys">
+        <button>(</button> <button>)</button> <button>π</button> <button>e</button> <button>ANS</button> <button>C</button>
+        <button>sin</button> <button>cos</button> <button>tan</button> <button>asin</button> <button>acos</button> <button>atan</button>
+        <button>log</button> <button>ln</button> <button>10^x</button> <button>e^x</button> <button>√</button> <button>∛</button>
+        <button>^</button> <button>!</button> <button>M+</button> <button>M-</button> <button>MR</button> <button>MODE</button>
+        <button>7</button> <button>8</button> <button>9</button> <button>/</button> <button>DEL</button> <button>Rnd</button>
+        <button>4</button> <button>5</button> <button>6</button> <button>*</button> <button colspan="2">ENG</button>
+        <button>1</button> <button>2</button> <button>3</button> <button>-</button> <button>=</button>
+        <button>0</button> <button>.</button> <button>+/-</button> <button>+</button>
+    </div>
+</div>
+
+<script>
+let display = document.getElementById('display');
+let memory = 0;
+let ans = 0;
+let expression = "";
+
+document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        let val = btn.textContent;
+        if (val === "C") {
+            expression = "";
+            display.textContent = "0";
+        } else if (val === "=") {
+            try {
+                let result = eval(expression.replace("π", Math.PI).replace("e", Math.E));
+                ans = result;
+                display.textContent = result;
+                expression = result.toString();
+            } catch {
+                display.textContent = "Error";
+            }
+        } else if (val === "ANS") {
+            expression += ans;
+            display.textContent = expression;
+        } else if (val === "M+") {
+            memory += parseFloat(display.textContent);
+        } else if (val === "M-") {
+            memory -= parseFloat(display.textContent);
+        } else if (val === "MR") {
+            expression += memory;
+            display.textContent = expression;
+        } else {
+            expression += val;
+            display.textContent = expression;
+        }
+    });
+});
+</script>
+</body>
+</html>
